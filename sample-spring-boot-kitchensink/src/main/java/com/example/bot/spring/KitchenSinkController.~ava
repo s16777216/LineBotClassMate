@@ -448,11 +448,11 @@ public class KitchenSinkController {
           Random rand = new Random();
             String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1="";
             for (int i=1; i<textarr.length; i++) {
-              food1 = " "+i+"."+food1;
+              food1 = food1+i+". "+textarr[i];
             }  
             ConfirmTemplate confirmTemplate = new ConfirmTemplate(
             food1+"是嗎?",
-            new MessageAction("Yes", "今天吃"+finalfood),
+            new MessageAction("Yes", "尾鰭說吃"+finalfood),
             new MessageAction("No", "不對")
             );
             TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
