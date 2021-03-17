@@ -17,7 +17,6 @@
 package com.example.bot.spring;
 
 import static java.util.Collections.singletonList;
-import java.util.Random;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -342,9 +341,8 @@ public class KitchenSinkController {
   throws Exception {
     final String text = content.getText();
     log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
-    String[] textarr = text.split(" ");
-    String text01 = textarr[0].substring(0,2), text02 = textarr[0].substring(2);
-    if ( text01.equals("尾鰭")&&text.substring(2)!="") {
+    String text01 = text.substring(0,2), text02 = text.substring(2,4), text03 = text.substring(4);
+    if ( text01.equals("尾鰭 ")) {
       switch (text02) {
         case "profile": {
           log.info("Invoking 'profile' command: source:{}", event.getSource());
@@ -444,9 +442,8 @@ public class KitchenSinkController {
             break;
           }
         case "吃飯": {
-          //String[] food = text03.split(" ");
-          Random rand = new Random();
-            String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1;
+          String[] food = text03.split(" ");
+            String finalfood = food[Math.random()%food.length],food1;
             for (int i=0; i<food.length; i++) {
               food1 = " "+i+"."+food1;
             }  
