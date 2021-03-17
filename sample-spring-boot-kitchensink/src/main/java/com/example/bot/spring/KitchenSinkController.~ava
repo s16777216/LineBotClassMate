@@ -447,7 +447,7 @@ public class KitchenSinkController {
           //String[] food = text03.split(" ");
           Random rand = new Random();
             String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1;
-            for (int i=0; i<food.length; i++) {
+            for (int i=1; i<textarr.length; i++) {
               food1 = " "+i+"."+food1;
             }  
             ConfirmTemplate confirmTemplate = new ConfirmTemplate(

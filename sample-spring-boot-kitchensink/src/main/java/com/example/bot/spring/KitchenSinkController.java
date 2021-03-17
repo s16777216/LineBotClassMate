@@ -446,7 +446,7 @@ public class KitchenSinkController {
         case "吃飯": {
           //String[] food = text03.split(" ");
           Random rand = new Random();
-            String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1;
+            String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1="";
             for (int i=1; i<textarr.length; i++) {
               food1 = " "+i+"."+food1;
             }  
