@@ -353,10 +353,10 @@ public class KitchenSinkController {
             "尾鰭吃飯",
             "尾鰭吃飯"),
             new PostbackAction("你是誰?",
-            "我是大雞癢",
-            "我是大雞癢"),
-            new MessageAction("你是誰",
-            "尾鰭你是誰")
+            "尾鰭你是誰",
+            "尾鰭你是誰"),
+            new MessageAction("你完蛋了",
+            "尾鰭完了")
             ));
             TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
             this.reply(replyToken, templateMessage);
