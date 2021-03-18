@@ -136,119 +136,27 @@ public class KitchenSinkController {
   }
   
   @EventMapping
-  public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
-    // You need to install ImageMagick
-    handleHeavyContent(
-    event.getReplyToken(),
-    event.getMessage().getId(),
-    responseBody -> {
-      final ContentProvider provider = event.getMessage().getContentProvider();
-      final DownloadedContent jpg;
-      final DownloadedContent previewImg;
-      if (provider.isExternal()) {
-        jpg = new DownloadedContent(null, provider.getOriginalContentUrl());
-        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
-      } else {
-        jpg = saveContent("jpg", responseBody);
-        previewImg = createTempFile("jpg");
-        system(
-        "convert",
-        "-resize", "240x",
-        jpg.path.toString(),
-        previewImg.path.toString());
-      }
-      reply(event.getReplyToken(),
-      new ImageMessage(jpg.getUri(), previewImg.getUri()));
-    });
-  }
-  
-  @EventMapping
-  public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
-    handleHeavyContent(
-    event.getReplyToken(),
-    event.getMessage().getId(),
-    responseBody -> {
-      final ContentProvider provider = event.getMessage().getContentProvider();
-      final DownloadedContent mp4;
-      if (provider.isExternal()) {
-        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
-      } else {
-        mp4 = saveContent("mp4", responseBody);
-      }
-      reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100));
-    });
-  }
-
-  @EventMapping
-  public void handleVideoMessageEvent(MessageEvent<VideoMessageContent> event) throws IOException {
-    log.info("Got video message: duration={}ms", event.getMessage().getDuration());
-    
-    // You need to install ffmpeg and ImageMagick.
-    handleHeavyContent(
-    event.getReplyToken(),
-    event.getMessage().getId(),
-    responseBody -> {
-      final ContentProvider provider = event.getMessage().getContentProvider();
-      final DownloadedContent mp4;
-      final DownloadedContent previewImg;
-      if (provider.isExternal()) {
-        mp4 = new DownloadedContent(null, provider.getOriginalContentUrl());
-        previewImg = new DownloadedContent(null, provider.getPreviewImageUrl());
-      } else {
-        mp4 = saveContent("mp4", responseBody);
-        previewImg = createTempFile("jpg");
-        system("convert",
-        mp4.path + "[0]",
-        previewImg.path.toString());
-      }
-      String trackingId = UUID.randomUUID().toString();
-      log.info("Sending video message with trackingId={}", trackingId);
-      reply(event.getReplyToken(),
-      VideoMessage.builder()
-      .originalContentUrl(mp4.getUri())
-      .previewImageUrl(previewImg.uri)
-      .trackingId(trackingId)
-      .build());
-    });
-  }
-
-  @EventMapping
-  public void handleVideoPlayCompleteEvent(VideoPlayCompleteEvent event) throws IOException {
-    log.info("Got video play complete: tracking id={}", event.getVideoPlayComplete().getTrackingId());
-    this.replyText(event.getReplyToken(),
-    "You played " + event.getVideoPlayComplete().getTrackingId());
-  }
-
-  @EventMapping
-  public void handleFileMessageEvent(MessageEvent<FileMessageContent> event) {
-    this.reply(event.getReplyToken(),
-    new TextMessage(String.format("Received '%s'(%d bytes)",
-    event.getMessage().getFileName(),
-    event.getMessage().getFileSize())));
-  }
-
-  @EventMapping
   public void handleUnfollowEvent(UnfollowEvent event) {
     log.info("unfollowed this bot: {}", event);
   }
-
+  
   @EventMapping
   public void handleUnknownEvent(UnknownEvent event) {
     log.info("Got an unknown event!!!!! : {}", event);
   }
-
+  
   @EventMapping
   public void handleFollowEvent(FollowEvent event) {
     String replyToken = event.getReplyToken();
     this.replyText(replyToken, "Got followed event");
   }
-
+  
   @EventMapping
   public void handleJoinEvent(JoinEvent event) {
     String replyToken = event.getReplyToken();
     this.replyText(replyToken, "Joined " + event.getSource());
   }
-
+  
   @EventMapping
   public void handlePostbackEvent(PostbackEvent event) {
     String replyToken = event.getReplyToken();
@@ -256,19 +164,32 @@ public class KitchenSinkController {
     "Got postback data " + event.getPostbackContent().getData() + ", param " + event
     .getPostbackContent().getParams().toString());
   }
-
+  
   @EventMapping
   public void handleBeaconEvent(BeaconEvent event) {
     String replyToken = event.getReplyToken();
     this.replyText(replyToken, "Got beacon message " + event.getBeacon().getHwid());
   }
-
+  
   @EventMapping
   public void handleMemberJoined(MemberJoinedEvent event) {
     String replyToken = event.getReplyToken();
-    this.replyText(replyToken, "Got memberJoined message " + event.getJoined().getMembers()
-    .stream().map(Source::getUserId)
-    .collect(Collectors.joining(",")));
+    lineMessagingClient
+    .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+    .whenComplete((profile, throwable) -> {
+    if (throwable != null) {
+    this.replyText(replyToken, throwable.getMessage());
+    return;
+    }
+    
+    this.reply(
+    replyToken,
+    Arrays.asList(new TextMessage("新夥伴 " + profile.getDisplayName()+" 進來了"),
+    new ImageMessage(profile.getPictureUrl(),profile.getPictureUrl())
+    )
+    );
+    }
+    );
   }
 
   @EventMapping
@@ -338,8 +259,7 @@ public class KitchenSinkController {
     );
   }
 
-  private void handleTextContent(String replyToken, Event event, TextMessageContent content)
-  throws Exception {
+  private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws Exception {
     final String text = content.getText();
     log.info("Got text message from replyToken:{}: text:{} emojis:{}", replyToken, text, content.getEmojis());
     String[] textarr = text.split(" ");
@@ -405,44 +325,6 @@ public class KitchenSinkController {
               }
             break;
           }
-        case "group_summary": {
-          Source source = event.getSource();
-            if (source instanceof GroupSource) {
-              GroupSummaryResponse groupSummary = lineMessagingClient.getGroupSummary(
-              ((GroupSource) source).getGroupId()).get();
-              this.replyText(replyToken, "Group summary: " + groupSummary);
-            } else {
-              this.replyText(replyToken, "You can't use 'group_summary' command for "
-              + source);
-            }
-            break;
-          }
-        case "group_member_count": {
-          Source source = event.getSource();
-            if (source instanceof GroupSource) {
-              GroupMemberCountResponse groupMemberCountResponse = lineMessagingClient.getGroupMemberCount(
-              ((GroupSource) source).getGroupId()).get();
-              this.replyText(replyToken, "Group member count: "
-              + groupMemberCountResponse.getCount());
-            } else {
-              this.replyText(replyToken, "You can't use 'group_member_count' command  for "
-              + source);
-            }
-            break;
-          }
-        case "room_member_count": {
-          Source source = event.getSource();
-            if (source instanceof RoomSource) {
-              RoomMemberCountResponse roomMemberCountResponse = lineMessagingClient.getRoomMemberCount(
-              ((RoomSource) source).getRoomId()).get();
-              this.replyText(replyToken, "Room member count: "
-              + roomMemberCountResponse.getCount());
-            } else {
-              this.replyText(replyToken, "You can't use 'room_member_count' command  for "
-              + source);
-            }
-            break;
-          }
         case "吃飯": {
           //String[] food = text03.split(" ");
           Random rand = new Random();
@@ -460,7 +342,7 @@ public class KitchenSinkController {
             break;
           }
         case "buttons": {
-          URI imageUrl = createUri("/static/buttons/1040.jpg");
+          URI imageUrl = createUri("/static/buttons/jully01.gif");
             ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
             imageUrl,
             "My button sample",
@@ -618,28 +500,21 @@ public class KitchenSinkController {
             .build());
             break;
           }
-        case "flex": 
+        case "flex": {
           this.reply(replyToken, new ExampleFlexMessageSupplier().get());
-          break;
-        case "quickreply":
-          this.reply(replyToken, new MessageWithQuickReplySupplier().get());
-          break;
-        case "no_notify": {
-          this.reply(replyToken,
-            singletonList(new TextMessage("This message is send without a push notification")),
-            true);
             break;
           }
-        case "icon": {
-          this.reply(replyToken,
-            TextMessage.builder()
-            .text("Hello, I'm cat! Meow~")
-            .sender(Sender.builder()
-            .name("Cat")
-            .iconUrl(createUri("/static/icon/cat.png"))
-            .build())
-            .build());
-            break;
+        case "完了":{
+          this.replyText(
+            replyToken,
+            "裂開"
+            );
+          }
+        case "幹你娘": {
+          this.replyText(
+            replyToken,
+            "它奶奶的槌子"
+            );
           }
         default:{
           log.info("Returns message {}: {}", replyToken, text);
@@ -651,14 +526,14 @@ public class KitchenSinkController {
       }
     } // end of if
   }
-
+              
   private static URI createUri(String path) {
     return ServletUriComponentsBuilder.fromCurrentContextPath()
     .scheme("https")
     .path(path).build()
     .toUri();
   }
-
+              
   private void system(String... args) {
     ProcessBuilder processBuilder = new ProcessBuilder(args);
     try {
@@ -672,7 +547,7 @@ public class KitchenSinkController {
       Thread.currentThread().interrupt();
     }
   }
-
+              
   private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
     log.info("Got content-type: {}", responseBody);
     
@@ -685,7 +560,7 @@ public class KitchenSinkController {
       throw new UncheckedIOException(e);
     }
   }
-
+              
   private static DownloadedContent createTempFile(String ext) {
     String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID() + '.' + ext;
     Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
@@ -694,7 +569,7 @@ public class KitchenSinkController {
     tempFile,
     createUri("/downloaded/" + tempFile.getFileName()));
   }
-
+              
   @Value
   private static class DownloadedContent {
     Path path;
