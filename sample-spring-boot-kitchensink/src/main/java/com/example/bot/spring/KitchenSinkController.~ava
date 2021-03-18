@@ -510,12 +510,14 @@ public class KitchenSinkController {
             replyToken,
             "裂開"
             );
+            break;
           }
         case "幹你娘": {
           this.replyText(
             replyToken,
             "它奶奶的槌子"
             );
+            break;
           }
         default:{
           log.info("Returns message {}: {}", replyToken, text);
