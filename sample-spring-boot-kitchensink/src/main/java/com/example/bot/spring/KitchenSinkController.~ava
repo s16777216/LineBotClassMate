@@ -517,6 +517,13 @@ public class KitchenSinkController {
             );
             break;
           }
+        case "你是誰": {
+          this.replyText(
+            replyToken,
+            "我是大雞癢"
+            );
+            break;
+          }
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(

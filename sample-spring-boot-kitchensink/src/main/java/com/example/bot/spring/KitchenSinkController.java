@@ -177,7 +177,7 @@ public class KitchenSinkController {
     String replyToken = event.getReplyToken();
     this.reply(
     replyToken,
-    new TextMessage("新夥伴進來了")
+    new TextMessage("又一個不怕死的進來了")
     );
     
   }
@@ -352,8 +352,9 @@ public class KitchenSinkController {
             new PostbackAction("幫大家選擇要吃啥",
             "尾鰭吃飯",
             "尾鰭吃飯"),
-            new MessageAction("尾鰭你完蛋了",
-            ""),
+            new PostbackAction("你是誰?",
+            "我是大雞癢",
+            "我是大雞癢"),
             new MessageAction("你是誰",
             "尾鰭你是誰")
             ));
@@ -534,14 +535,14 @@ public class KitchenSinkController {
       }
     } // end of if
   }
-              
+            
   private static URI createUri(String path) {
     return ServletUriComponentsBuilder.fromCurrentContextPath()
     .scheme("https")
     .path(path).build()
     .toUri();
   }
-              
+            
   private void system(String... args) {
     ProcessBuilder processBuilder = new ProcessBuilder(args);
     try {
@@ -555,7 +556,7 @@ public class KitchenSinkController {
       Thread.currentThread().interrupt();
     }
   }
-              
+            
   private static DownloadedContent saveContent(String ext, MessageContentResponse responseBody) {
     log.info("Got content-type: {}", responseBody);
     
@@ -568,7 +569,7 @@ public class KitchenSinkController {
       throw new UncheckedIOException(e);
     }
   }
-              
+            
   private static DownloadedContent createTempFile(String ext) {
     String fileName = LocalDateTime.now().toString() + '-' + UUID.randomUUID() + '.' + ext;
     Path tempFile = KitchenSinkApplication.downloadedContentDir.resolve(fileName);
@@ -577,7 +578,7 @@ public class KitchenSinkController {
     tempFile,
     createUri("/downloaded/" + tempFile.getFileName()));
   }
-              
+            
   @Value
   private static class DownloadedContent {
     Path path;
