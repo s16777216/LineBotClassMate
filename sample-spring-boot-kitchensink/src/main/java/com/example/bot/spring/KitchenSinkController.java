@@ -175,22 +175,11 @@ public class KitchenSinkController {
   public void handleMemberJoined(MemberJoinedEvent event) {
     final String userId = event.getSource().getUserId();
     String replyToken = event.getReplyToken();
-    lineMessagingClient
-    .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
-    .whenComplete((profile, throwable) -> {
-    if (throwable != null) {
-    this.replyText(replyToken, throwable.getMessage());
-    return;
-    }
-    
     this.reply(
     replyToken,
-    Arrays.asList(new TextMessage("新夥伴 " + profile.getDisplayName()+" 進來了"),
-    new ImageMessage(profile.getPictureUrl(),profile.getPictureUrl())
-    )
+    new TextMessage("新夥伴進來了")
     );
-    }
-    );
+    
   }
 
   @EventMapping
@@ -328,7 +317,15 @@ public class KitchenSinkController {
           }
         case "吃飯": {
           //String[] food = text03.split(" ");
-          Random rand = new Random();
+            if (textarr.length==1) {
+              this.replyText(
+              replyToken,
+              ""
+              );
+            } else {
+              
+            } // end of if-else
+            Random rand = new Random();
             String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1="";
             for (int i=1; i<textarr.length; i++) {
               food1 = food1+i+"."+textarr[i]+" ";
@@ -356,7 +353,9 @@ public class KitchenSinkController {
             "尾鰭吃飯",
             "尾鰭吃飯"),
             new MessageAction("尾鰭你完蛋了",
-            "尾鰭完了")
+            ""),
+            new MessageAction("你是誰",
+            "尾鰭你是誰")
             ));
             TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
             this.reply(replyToken, templateMessage);
@@ -515,6 +514,13 @@ public class KitchenSinkController {
           this.replyText(
             replyToken,
             "它奶奶的槌子"
+            );
+            break;
+          }
+        case "你是誰": {
+          this.replyText(
+            replyToken,
+            "我是大雞癢"
             );
             break;
           }
