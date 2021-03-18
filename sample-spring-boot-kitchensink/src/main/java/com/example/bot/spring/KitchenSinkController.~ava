@@ -18,6 +18,8 @@ package com.example.bot.spring;
 
 import static java.util.Collections.singletonList;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -151,10 +153,14 @@ public class KitchenSinkController {
     this.replyText(replyToken, "Got followed event");
   }
   
-  @EventMapping
+  @EventMapping    //bot join event
   public void handleJoinEvent(JoinEvent event) {
     String replyToken = event.getReplyToken();
-    this.replyText(replyToken, "Joined " + event.getSource());
+    this.reply(
+    replyToken,
+    Arrays.asList(new TextMessage("看到我大槌尾鰭都不會怕的"),
+    new TextMessage("還敢邀我進來阿"))
+    );
   }
   
   @EventMapping
@@ -326,14 +332,16 @@ public class KitchenSinkController {
               
             } // end of if-else
             Random rand = new Random();
-            String finalfood = textarr[rand.nextInt(textarr.length-1)+1],food1="";
+            ArrayList<String> foodarr = new ArrayList<String>(Arrays.asList(textarr));
+            foodarr.add("屎";)
+            String finalfood = foodarr.get(rand.nextInt(textarr.length)+1),food1="";
             for (int i=1; i<textarr.length; i++) {
               food1 = food1+i+"."+textarr[i]+" ";
             }  
             ConfirmTemplate confirmTemplate = new ConfirmTemplate(
             food1+"是嗎?",
             new MessageAction("Yes", "尾鰭說吃"+finalfood),
-            new MessageAction("No", "不對")
+            new MessageAction("No", "尾鰭不對")
             );
             TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
             this.reply(replyToken, templateMessage);
@@ -353,10 +361,10 @@ public class KitchenSinkController {
             "尾鰭吃飯",
             "尾鰭吃飯"),
             new PostbackAction("你是誰?",
-            "我是大雞癢",
-            "我是大雞癢"),
-            new MessageAction("你是誰",
-            "尾鰭你是誰")
+            "尾鰭你是誰",
+            "尾鰭你是誰"),
+            new MessageAction("你完蛋了",
+            "尾鰭完了")
             ));
             TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
             this.reply(replyToken, templateMessage);
@@ -525,6 +533,20 @@ public class KitchenSinkController {
             );
             break;
           }
+        case "不對": {
+          this.replyText(
+            replyToken,
+            "啊不然勒"
+            );
+            break;
+          }
+        case "讀書": {
+          this.replyText(
+            replyToken,
+            "@羅緯琦 讀書"
+            );
+            break;
+          }  
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(
@@ -533,6 +555,12 @@ public class KitchenSinkController {
             );
           break;}
       }
+    }
+    if (text01.equals("阿這")) {
+      this.replyText(
+      replyToken,
+      "還敢學阿"
+      );
     } // end of if
   }
             
