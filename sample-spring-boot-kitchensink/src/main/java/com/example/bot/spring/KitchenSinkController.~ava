@@ -342,22 +342,21 @@ public class KitchenSinkController {
             this.reply(replyToken, templateMessage);
             break;
           }
-        case "buttons": {
+        case "你能幹嘛": {
           URI imageUrl = createUri("/static/buttons/jully01.gif");
             ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
             imageUrl,
-            "My button sample",
-            "Hello, my button",
-            Arrays.asList(
-            new URIAction("Go to line.me",
-            URI.create("https://line.me"), null),
-            new PostbackAction("Say hello1",
-            "hello こんにちは"),
-            new PostbackAction("言 hello2",
-            "hello こんにちは",
-            "hello こんにちは"),
-            new MessageAction("Say message",
-            "Rice=米")
+            "我能幹嘛?",
+            "你問這什麼爛問題",
+            Arrays.asList(;
+            new PostbackAction("罵尾鰭",
+            "尾鰭幹你娘",
+            "尾鰭幹你娘"),
+            new PostbackAction("幫大家選擇要吃啥",
+            "尾鰭吃飯",
+            "尾鰭吃飯"),
+            new MessageAction("尾鰭你完蛋了",
+            "尾鰭完了")
             ));
             TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
             this.reply(replyToken, templateMessage);

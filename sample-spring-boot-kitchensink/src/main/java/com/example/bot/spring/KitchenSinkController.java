@@ -348,7 +348,7 @@ public class KitchenSinkController {
             imageUrl,
             "我能幹嘛?",
             "你問這什麼爛問題",
-            Arrays.asList(;
+            Arrays.asList(
             new PostbackAction("罵尾鰭",
             "尾鰭幹你娘",
             "尾鰭幹你娘"),
