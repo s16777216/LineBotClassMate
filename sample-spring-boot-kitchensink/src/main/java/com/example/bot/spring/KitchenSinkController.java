@@ -173,6 +173,7 @@ public class KitchenSinkController {
   
   @EventMapping
   public void handleMemberJoined(MemberJoinedEvent event) {
+    final String userId = event.getSource().getUserId();
     String replyToken = event.getReplyToken();
     lineMessagingClient
     .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
