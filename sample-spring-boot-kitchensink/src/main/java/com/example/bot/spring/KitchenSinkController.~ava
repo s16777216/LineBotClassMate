@@ -369,87 +369,20 @@ public class KitchenSinkController {
             new MessageAction("你完蛋了",
             "尾鰭完了")
             ));
-            TemplateMessage templateMessage = new TemplateMessage("Button alt text", buttonsTemplate);
+            TemplateMessage templateMessage = new TemplateMessage("尾鰭在自我介紹", buttonsTemplate);
             this.reply(replyToken, templateMessage);
             break;
           }
-        case "carousel": {
-          URI imageUrl = createUri("/static/buttons/1040.jpg");
-            CarouselTemplate carouselTemplate = new CarouselTemplate(
-            Arrays.asList(
-            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-            new URIAction("Go to line.me",
-            URI.create("https://line.me"), null),
-            new URIAction("Go to line.me",
-            URI.create("https://line.me"), null),
-            new PostbackAction("Say hello1",
-            "hello こんにちは")
-            )),
-            new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-            new PostbackAction("言 hello2",
-            "hello こんにちは",
-            "hello こんにちは"),
-            new PostbackAction("言 hello2",
-            "hello こんにちは",
-            "hello こんにちは"),
-            new MessageAction("Say message",
-            "Rice=米")
-            )),
-            new CarouselColumn(imageUrl, "Datetime Picker",
-            "Please select a date, time or datetime", Arrays.asList(
-            DatetimePickerAction.OfLocalDatetime
-            .builder()
-            .label("Datetime")
-            .data("action=sel")
-            .initial(LocalDateTime.parse("2017-06-18T06:15"))
-            .min(LocalDateTime.parse("1900-01-01T00:00"))
-            .max(LocalDateTime.parse("2100-12-31T23:59"))
-            .build(),
-            DatetimePickerAction.OfLocalDate
-            .builder()
-            .label("Date")
-            .data("action=sel&only=date")
-            .initial(LocalDate.parse("2017-06-18"))
-            .min(LocalDate.parse("1900-01-01"))
-            .max(LocalDate.parse("2100-12-31"))
-            .build(),
-            DatetimePickerAction.OfLocalTime
-            .builder()
-            .label("Time")
-            .data("action=sel&only=time")
-            .initial(LocalTime.parse("06:15"))
-            .min(LocalTime.parse("00:00"))
-            .max(LocalTime.parse("23:59"))
-            .build()
-            ))
-            ));
-            TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+        case "長相": {
+          ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+            "我帥不帥?",
+            new MessageAction("帥","尾鰭帥"),
+            new MessageAction("醜", "尾鰭醜")
+            );
+            TemplateMessage templateMessage = new TemplateMessage("美醜大對決", confirmTemplate);
             this.reply(replyToken, templateMessage);
             break;
-          }
-        case "image_carousel": {
-          URI imageUrl = createUri("/static/buttons/1040.jpg");
-            ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
-            Arrays.asList(
-            new ImageCarouselColumn(imageUrl,
-            new URIAction("Goto line.me",
-            URI.create("https://line.me"), null)
-            ),
-            new ImageCarouselColumn(imageUrl,
-            new MessageAction("Say message",
-            "Rice=米")
-            ),
-            new ImageCarouselColumn(imageUrl,
-            new PostbackAction("言 hello2",
-            "hello こんにちは",
-            "hello こんにちは")
-            )
-            ));
-            TemplateMessage templateMessage = new TemplateMessage("ImageCarousel alt text",
-            imageCarouselTemplate);
-            this.reply(replyToken, templateMessage);
-            break;
-          }
+          }  
         case "好康":{
           //            final String baseUrl,
           //            final String altText,
@@ -457,24 +390,24 @@ public class KitchenSinkController {
           //            final List<ImagemapAction> actions) {
           this.reply(replyToken, ImagemapMessage
             .builder()
-            .baseUrl(createUri("/static/rich/1040"))
-            .altText("This is alt text")
+            .baseUrl(createUri("/static/imagemap"))
+            .altText("尾鰭傳好康ㄉ")
             .baseSize(new ImagemapBaseSize(1040, 1040))
             .actions(Arrays.asList(
             URIImagemapAction.builder()
-            .linkUri("https://store.line.me/family/manga/en")
+            .linkUri("https://youtu.be/072tU1tamd0")
             .area(new ImagemapArea(0, 0, 520, 520))
             .build(),
-            URIImagemapAction.builder()
-            .linkUri("https://store.line.me/family/music/en")
+            MessageImagemapAction.builder()
+            .text("我喜歡肛交")
             .area(new ImagemapArea(520, 0, 520, 520))
             .build(),
             URIImagemapAction.builder()
-            .linkUri("https://store.line.me/family/play/en")
+            .linkUri("https://www.instagram.com/miakhalifa/?utm_source=ig_embed")
             .area(new ImagemapArea(0, 520, 520, 520))
             .build(),
-            MessageImagemapAction.builder( )
-            .text("URANAI!")
+            MessageImagemapAction.builder()
+            .text("我是臭ㄐㄐ")
             .area(new ImagemapArea(520, 520, 520, 520))
             .build()
             ))
@@ -543,6 +476,22 @@ public class KitchenSinkController {
             );
             break;
           }
+        case "帥": {
+          this.replyText(
+            replyToken,
+            "牛逼"
+            );
+            break;
+          }
+        case "醜": {
+          this.replyText(
+            replyToken,
+            Arrays.asList(;
+            new TextMessage("你才醜"),
+            new TextMessage("你全家都醜"))
+            );
+            break;
+          }  
         case "變身": {
           this.reply(replyToken,
             TextMessage.builder()
