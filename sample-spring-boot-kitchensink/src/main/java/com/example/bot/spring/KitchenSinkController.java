@@ -348,7 +348,7 @@ public class KitchenSinkController {
             break;
           }
         case "你能幹嘛": {
-          URI imageUrl = createUri("/static/buttons/jully.gif");
+          URI imageUrl = createUri("/static/buttons/1040");
             ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
             imageUrl,
             "我能幹嘛?",
