@@ -363,16 +363,10 @@ public class KitchenSinkController {
             new PostbackAction("你是誰?",
             "尾鰭你是誰",
             "尾鰭你是誰"),
-            new PostbackAction("你帥不帥?",
-            "尾鰭帥嗎",
-            "尾鰭帥嗎"),
-            new PostbackAction("變身",
-            "緯琦變身",
-            "緯琦變身"),
             new MessageAction("你完蛋了",
             "尾鰭完了")
             ));
-            TemplateMessage templateMessage = new TemplateMessage("尾鰭在自我介紹", buttonsTemplate);
+            TemplateMessage templateMessage = new TemplateMessage("尾鰭能幹嘛", buttonsTemplate);
             this.reply(replyToken, templateMessage);
             break;
           }
@@ -406,7 +400,7 @@ public class KitchenSinkController {
             .area(new ImagemapArea(520, 0, 520, 520))
             .build(),
             URIImagemapAction.builder()
-            .linkUri("https://www.instagram.com/miakhalifa/?utm_source=ig_embed")
+            .linkUri("https://www.instagram.com/miakhalifa/")
             .area(new ImagemapArea(0, 520, 520, 520))
             .build(),
             MessageImagemapAction.builder()

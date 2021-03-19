@@ -363,16 +363,10 @@ public class KitchenSinkController {
             new PostbackAction("你是誰?",
             "尾鰭你是誰",
             "尾鰭你是誰"),
-            new PostbackAction("你帥不帥?",
-            "尾鰭帥嗎",
-            "尾鰭帥嗎"),
-            new PostbackAction("變身",
-            "緯琦變身",
-            "緯琦變身"),
             new MessageAction("你完蛋了",
             "尾鰭完了")
             ));
-            TemplateMessage templateMessage = new TemplateMessage("尾鰭在自我介紹", buttonsTemplate);
+            TemplateMessage templateMessage = new TemplateMessage("尾鰭能幹嘛", buttonsTemplate);
             this.reply(replyToken, templateMessage);
             break;
           }
@@ -415,40 +409,6 @@ public class KitchenSinkController {
             .build()
             ))
             .build());
-            break;
-          }
-        case "imagemap_video": {
-          
-          this.reply(replyToken, ImagemapMessage
-            .builder()
-            .baseUrl(createUri("/static/imagemap_video"))
-            .altText("This is an imagemap with video")
-            .baseSize(new ImagemapBaseSize(722, 1040))
-            .video(
-            ImagemapVideo.builder()
-            .originalContentUrl(
-            createUri("/static/imagemap_video/originalContent.mp4"))
-            .previewImageUrl(
-            createUri("/static/imagemap_video/previewImage.jpg"))
-            .area(new ImagemapArea(40, 46, 952, 536))
-            .externalLink(
-            new ImagemapExternalLink(
-            URI.create("https://example.com/see_more.html"),
-            "See More")
-            )
-            .build()
-            )
-            .actions(singletonList(
-            MessageImagemapAction.builder()
-            .text("NIXIE CLOCK")
-            .area(new ImagemapArea(260, 600, 450, 86))
-            .build()
-            ))
-            .build());
-            break;
-          }
-        case "flex": {
-          this.reply(replyToken, new ExampleFlexMessageSupplier().get());
             break;
           }
         case "完了":{
