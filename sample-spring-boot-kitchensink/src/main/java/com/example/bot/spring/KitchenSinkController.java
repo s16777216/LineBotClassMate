@@ -486,10 +486,8 @@ public class KitchenSinkController {
         case "醜": {
           this.replyText(
             replyToken,
-            Arrays.asList(
-            new TextMessage("你才醜"),
-            new TextMessage("你全家都醜"))
-            );
+            Arrays.asList(new TextMessage("你才醜"),
+            new TextMessage("你全家都醜")));
             break;
           }  
         case "變身": {
