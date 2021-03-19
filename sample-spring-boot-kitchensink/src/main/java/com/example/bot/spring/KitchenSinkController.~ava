@@ -333,7 +333,7 @@ public class KitchenSinkController {
             } // end of if-else
             Random rand = new Random();
             ArrayList<String> foodarr = new ArrayList<String>(Arrays.asList(textarr));
-            foodarr.add("屎";)
+            foodarr.add("屎");
             String finalfood = foodarr.get(rand.nextInt(textarr.length)+1),food1="";
             for (int i=1; i<textarr.length; i++) {
               food1 = food1+i+"."+textarr[i]+" ";

@@ -311,13 +311,13 @@ public class KitchenSinkController {
         case "滾蛋": {
           Source source = event.getSource();
             if (source instanceof GroupSource) {
-              this.replyText(replyToken, "Leaving group");
+              this.replyText(replyToken, "Leaving group" );
               lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get();
             } else if (source instanceof RoomSource) {
                 this.replyText(replyToken, "Leaving room");
                 lineMessagingClient.leaveRoom(((RoomSource) source).getRoomId()).get();
               } else {
-                this.replyText(replyToken, "Bot can't leave from 1:1 chat");
+                this.replyText(replyToken, "令人遺憾的結果");
               }
             break;
           }
@@ -326,7 +326,7 @@ public class KitchenSinkController {
             if (textarr.length==1) {
               this.replyText(
               replyToken,
-              ""
+              "又不說要吃什麼是要吃洨喔"
               );
             } else {
               
