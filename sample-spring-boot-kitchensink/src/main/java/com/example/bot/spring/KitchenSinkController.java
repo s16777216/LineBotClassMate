@@ -348,7 +348,7 @@ public class KitchenSinkController {
             break;
           }
         case "你能幹嘛": {
-          URI imageUrl = createUri("/static/buttons/1040");
+          URI imageUrl = createUri("/static/buttons/jelly.gif");
             ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
             imageUrl,
             "我能幹嘛?",
@@ -457,7 +457,7 @@ public class KitchenSinkController {
           //            final List<ImagemapAction> actions) {
           this.reply(replyToken, ImagemapMessage
             .builder()
-            .baseUrl(createUri("/static/rich/boobs.png"))
+            .baseUrl(createUri("/static/rich/1040"))
             .altText("This is alt text")
             .baseSize(new ImagemapBaseSize(1040, 1040))
             .actions(Arrays.asList(
