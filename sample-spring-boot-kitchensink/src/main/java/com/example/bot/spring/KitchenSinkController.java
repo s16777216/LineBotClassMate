@@ -450,7 +450,7 @@ public class KitchenSinkController {
             this.reply(replyToken, templateMessage);
             break;
           }
-        case "imagemap":{
+        case "好康":{
           //            final String baseUrl,
           //            final String altText,
           //            final ImagemapBaseSize imagemapBaseSize,
@@ -459,7 +459,7 @@ public class KitchenSinkController {
             .builder()
             .baseUrl(createUri("/static/rich"))
             .altText("This is alt text")
-            .baseSize(new ImagemapBaseSize(1040, 1040))
+            .baseSize(new ImagemapBaseSize(700, 700))
             .actions(Arrays.asList(
             URIImagemapAction.builder()
             .linkUri("https://store.line.me/family/manga/en")

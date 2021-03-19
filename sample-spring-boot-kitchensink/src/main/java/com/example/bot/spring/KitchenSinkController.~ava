@@ -363,6 +363,9 @@ public class KitchenSinkController {
             new PostbackAction("你是誰?",
             "尾鰭你是誰",
             "尾鰭你是誰"),
+            new PostbackAction("變身",
+            "緯琦變身",
+            "緯琦變身"),
             new MessageAction("你完蛋了",
             "尾鰭完了")
             ));
@@ -456,7 +459,7 @@ public class KitchenSinkController {
             .builder()
             .baseUrl(createUri("/static/rich"))
             .altText("This is alt text")
-            .baseSize(new ImagemapBaseSize(1040, 1040))
+            .baseSize(new ImagemapBaseSize(700, 700))
             .actions(Arrays.asList(
             URIImagemapAction.builder()
             .linkUri("https://store.line.me/family/manga/en")
