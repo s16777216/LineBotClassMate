@@ -363,6 +363,9 @@ public class KitchenSinkController {
             new PostbackAction("你是誰?",
             "尾鰭你是誰",
             "尾鰭你是誰"),
+            new PostbackAction("變身",
+            "緯琦變身",
+            "緯琦變身"),
             new MessageAction("你完蛋了",
             "尾鰭完了")
             ));
