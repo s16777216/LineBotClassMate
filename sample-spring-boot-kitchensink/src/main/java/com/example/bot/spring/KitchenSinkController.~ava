@@ -486,7 +486,7 @@ public class KitchenSinkController {
         case "醜": {
           this.replyText(
             replyToken,
-            Arrays.asList(;
+            Arrays.asList(
             new TextMessage("你才醜"),
             new TextMessage("你全家都醜"))
             );
