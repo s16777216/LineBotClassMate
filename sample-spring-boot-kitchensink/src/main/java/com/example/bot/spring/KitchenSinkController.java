@@ -348,7 +348,7 @@ public class KitchenSinkController {
             break;
           }
         case "你能幹嘛": {
-          URI imageUrl = createUri("/static/buttons/jully01.gif");
+          URI imageUrl = createUri("/static/buttons/jully.gif");
             ButtonsTemplate buttonsTemplate = new ButtonsTemplate(
             imageUrl,
             "我能幹嘛?",
@@ -457,9 +457,9 @@ public class KitchenSinkController {
           //            final List<ImagemapAction> actions) {
           this.reply(replyToken, ImagemapMessage
             .builder()
-            .baseUrl(createUri("/static/rich"))
+            .baseUrl(createUri("https://i.imgur.com/UWPcWuw.png#"))
             .altText("This is alt text")
-            .baseSize(new ImagemapBaseSize(700, 700))
+            .baseSize(new ImagemapBaseSize(1040, 1040))
             .actions(Arrays.asList(
             URIImagemapAction.builder()
             .linkUri("https://store.line.me/family/manga/en")
@@ -473,7 +473,7 @@ public class KitchenSinkController {
             .linkUri("https://store.line.me/family/play/en")
             .area(new ImagemapArea(0, 520, 520, 520))
             .build(),
-            MessageImagemapAction.builder()
+            MessageImagemapAction.builder( )
             .text("URANAI!")
             .area(new ImagemapArea(520, 520, 520, 520))
             .build()
