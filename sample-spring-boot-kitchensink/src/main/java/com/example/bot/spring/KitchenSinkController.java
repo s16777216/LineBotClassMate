@@ -457,7 +457,7 @@ public class KitchenSinkController {
           //            final List<ImagemapAction> actions) {
           this.reply(replyToken, ImagemapMessage
             .builder()
-            .baseUrl(createUri("/static/rich/boobs"))
+            .baseUrl(createUri("/static/rich/boobs.png"))
             .altText("This is alt text")
             .baseSize(new ImagemapBaseSize(1040, 1040))
             .actions(Arrays.asList(
