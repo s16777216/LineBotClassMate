@@ -326,7 +326,7 @@ public class KitchenSinkController {
             if (textarr.length==1) {
               this.replyText(
               replyToken,
-              "又不說要吃什麼是要吃洨喔"
+              "不說要吃什麼是要吃洨喔"
               );
             } else {
               
@@ -540,13 +540,17 @@ public class KitchenSinkController {
             );
             break;
           }
-        case "讀書": {
-          this.replyText(
-            replyToken,
-            "@羅緯琦 讀書"
-            );
-            break;
-          }  
+        case "變身": {
+          this.reply(replyToken,
+            TextMessage.builder();
+            .text("牛逼")
+            .sender(Sender.builder()
+            .name("羅緯琦")
+            .iconUrl(createUri("/static/icon/icon.png"))
+            .build())
+            .build());
+            break; 
+          } 
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(
