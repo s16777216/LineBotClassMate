@@ -484,12 +484,12 @@ public class KitchenSinkController {
             break;
           }
         case "醜": {
-          this.replyText(
+          this.reply(
             replyToken,
             Arrays.asList(;
             new TextMessage("你才醜"),
-            new TextMessage("你全家都醜"))
-            );
+            new TextMessage("你全家都醜")
+            ));
             break;
           }  
         case "變身": {
