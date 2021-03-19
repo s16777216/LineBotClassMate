@@ -363,6 +363,9 @@ public class KitchenSinkController {
             new PostbackAction("你是誰?",
             "尾鰭你是誰",
             "尾鰭你是誰"),
+            new PostbackAction("你帥不帥?",
+            "尾鰭帥嗎",
+            "尾鰭帥嗎"),
             new PostbackAction("變身",
             "緯琦變身",
             "緯琦變身"),
@@ -373,7 +376,7 @@ public class KitchenSinkController {
             this.reply(replyToken, templateMessage);
             break;
           }
-        case "長相": {
+        case "帥嗎": {
           ConfirmTemplate confirmTemplate = new ConfirmTemplate(
             "我帥不帥?",
             new MessageAction("帥","尾鰭帥"),
@@ -486,7 +489,7 @@ public class KitchenSinkController {
         case "醜": {
           this.reply(
             replyToken,
-            Arrays.asList(;
+            Arrays.asList(
             new TextMessage("你才醜"),
             new TextMessage("你全家都醜")
             ));
