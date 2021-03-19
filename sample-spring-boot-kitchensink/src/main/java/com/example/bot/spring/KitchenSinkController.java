@@ -542,7 +542,7 @@ public class KitchenSinkController {
           }
         case "變身": {
           this.reply(replyToken,
-            TextMessage.builder();
+            TextMessage.builder()
             .text("牛逼")
             .sender(Sender.builder()
             .name("羅緯琦")

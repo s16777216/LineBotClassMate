@@ -540,13 +540,6 @@ public class KitchenSinkController {
             );
             break;
           }
-        case "讀書": {
-          this.replyText(
-            replyToken,
-            "@羅緯琦 讀書"
-            );
-            break;
-          }
         case "變身": {
           this.reply(replyToken,
             TextMessage.builder();
