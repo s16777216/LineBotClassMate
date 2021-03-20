@@ -451,21 +451,36 @@ public class KitchenSinkController {
             replyToken,
             Arrays.asList(
             new TextMessage("你才醜"),
-            new TextMessage("你全家都醜")
+            new TextMessage("你全家都醜") ,
+            new TextMessage("你祖宗十八代才醜")
             ));
             break;
           }  
-        case "變身": {
-          this.reply(replyToken,
-            TextMessage.builder()
-            .text("牛逼")
-            .sender(Sender.builder()
-            .name("羅緯琦")
-            .iconUrl(createUri("/static/icon/icon.png"))
-            .build())
-            .build());
-            break; 
-          } 
+        case "變身":{
+          final String userId = event.getSource().getUserId();
+            if (userId != null) {
+              if (event.getSource() instanceof GroupSource) {
+                lineMessagingClient
+                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                .whenComplete((profile, throwable) -> {
+                if (throwable != null) {
+                this.replyText(replyToken, throwable.getMessage());
+                return;
+                }
+                
+                this.reply(replyToken,
+                TextMessage.builder()
+                .text("我是醜八怪")
+                .sender(Sender.builder()
+                .name(profile.getDisplayName())
+                .iconUrl(profile.getPictureUrl())
+                .build())
+                .build());
+                });
+              }
+            } 
+            break;
+          }  
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(
