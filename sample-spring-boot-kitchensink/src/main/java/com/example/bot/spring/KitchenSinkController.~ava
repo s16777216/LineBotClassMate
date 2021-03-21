@@ -329,22 +329,22 @@ public class KitchenSinkController {
               "不說要吃什麼是要吃洨喔"
               );
             } else {
-              
+              Random rand = new Random();
+              ArrayList<String> foodarr = new ArrayList<String>(Arrays.asList(textarr));
+              foodarr.add("屎");
+              String finalfood = foodarr.get(rand.nextInt(textarr.length)+1),food1="";
+              for (int i=1; i<textarr.length; i++) {
+                food1 = food1+i+"."+textarr[i]+" ";
+              }  
+              ConfirmTemplate confirmTemplate = new ConfirmTemplate(
+              food1+"是嗎?",
+              new MessageAction("Yes", "尾鰭說吃"+finalfood),
+              new MessageAction("No", "尾鰭不對")
+              );
+              TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
+              this.reply(replyToken, templateMessage);
             } // end of if-else
-            Random rand = new Random();
-            ArrayList<String> foodarr = new ArrayList<String>(Arrays.asList(textarr));
-            foodarr.add("屎");
-            String finalfood = foodarr.get(rand.nextInt(textarr.length)+1),food1="";
-            for (int i=1; i<textarr.length; i++) {
-              food1 = food1+i+"."+textarr[i]+" ";
-            }  
-            ConfirmTemplate confirmTemplate = new ConfirmTemplate(
-            food1+"是嗎?",
-            new MessageAction("Yes", "尾鰭說吃"+finalfood),
-            new MessageAction("No", "尾鰭不對")
-            );
-            TemplateMessage templateMessage = new TemplateMessage("Confirm alt text", confirmTemplate);
-            this.reply(replyToken, templateMessage);
+            
             break;
           }
         case "你能幹嘛": {
@@ -443,20 +443,101 @@ public class KitchenSinkController {
           this.replyText(
             replyToken,
             "牛逼"
-            );
+            );                                                                    
             break;
           }
         case "醜": {
-          this.reply(
-            replyToken,
-            Arrays.asList(
-            new TextMessage("你才醜"),
-            new TextMessage("你全家都醜") ,
-            new TextMessage("你祖宗十八代才醜")
-            ));
+          Random rand = new Random();
+            if (rand.nextInt(2)==0) {
+              this.reply(
+              replyToken,
+              Arrays.asList(
+              new TextMessage("你才醜"),
+              new TextMessage("你全家都醜") ,
+              new TextMessage("你祖宗十八代才醜")
+              ));
+            } else {
+              log.info("Invoking 'profile' command: source:{}", event.getSource());
+              final String userId = event.getSource().getUserId();
+              if (userId != null) {
+                if (event.getSource() instanceof GroupSource) {
+                  lineMessagingClient
+                  .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                  .whenComplete((profile, throwable) -> {
+                  if (throwable != null) {
+                  this.replyText(replyToken, throwable.getMessage());
+                  return;
+                  }
+                  
+                  this.reply(replyToken,
+                  TextMessage.builder()
+                  .text("我也很醜")
+                  .sender(Sender.builder()
+                  .name(profile.getDisplayName())
+                  .iconUrl(profile.getPictureUrl())
+                  .build())
+                  .build());
+                  });
+                }
+              } else {
+                this.reply(
+                replyToken,
+                Arrays.asList(
+                new TextMessage("你才醜"),
+                new TextMessage("你全家都醜") ,
+                new TextMessage("你祖宗十八代才醜")
+                ));
+              }
+            } // end of if-else
+            
             break;
           }  
-        
+        case "變身":{
+          log.info("Invoking 'profile' command: source:{}", event.getSource());
+            final String userId = event.getSource().getUserId();
+            if (userId != null) {
+              if (event.getSource() instanceof GroupSource) {
+                lineMessagingClient
+                .getGroupMemberProfile(((GroupSource) event.getSource()).getGroupId(), userId)
+                .whenComplete((profile, throwable) -> {
+                if (throwable != null) {
+                this.replyText(replyToken, throwable.getMessage());
+                return;
+                }
+                
+                this.reply(replyToken,
+                TextMessage.builder()
+                .text("Hello, I'm cat! Meow~")
+                .sender(Sender.builder()
+                .name(profile.getDisplayName())
+                .iconUrl(profile.getPictureUrl())
+                .build())
+                .build());
+                });
+              } else {
+                lineMessagingClient
+                .getProfile(userId)
+                .whenComplete((profile, throwable) -> {
+                  if (throwable != null) {
+                    this.replyText(replyToken, throwable.getMessage());
+                    return;
+                  }
+                  
+                  this.reply(
+                  replyToken,
+                  Arrays.asList(new TextMessage(
+                  "Display name: " + profile.getDisplayName()),
+                  new TextMessage("Status message: "
+                  + profile.getStatusMessage()))
+                  );
+                  
+                });
+              }
+            } else {
+              this.replyText(replyToken, "Bot can't use profile API without user ID");
+            }
+            break;
+          }
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(
