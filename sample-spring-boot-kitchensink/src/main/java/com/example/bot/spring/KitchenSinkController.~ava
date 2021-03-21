@@ -504,10 +504,28 @@ public class KitchenSinkController {
                 this.replyText(replyToken, throwable.getMessage());
                 return;
                 }
+                String saying = new String();
+                switch (profile.getDisplayName()) {
+                  case "羅緯琦" : 
+                    saying = "牛逼";  
+                    break;
+                  case "邱文瑞" : 
+                    saying = "難過";
+                    break;
+                  case "呂昊曈":
+                    saying = "沒水準";
+                    break;
+                  case "黃韋晧":
+                    saying = "快點";
+                    break;
+                  default:
+                    saying = "開bang";
+                    break;
+                }
                 
                 this.reply(replyToken,
                 TextMessage.builder()
-                .text("Hello, I'm cat! Meow~")
+                .text(saying)
                 .sender(Sender.builder()
                 .name(profile.getDisplayName())
                 .iconUrl(profile.getPictureUrl())
