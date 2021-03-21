@@ -457,7 +457,8 @@ public class KitchenSinkController {
             break;
           }  
         case "變身":{
-          final String userId = event.getSource().getUserId();
+          log.info("Invoking 'profile' command: source:{}", event.getSource());
+            final String userId = event.getSource().getUserId();
             if (userId != null) {
               if (event.getSource() instanceof GroupSource) {
                 lineMessagingClient
@@ -470,17 +471,37 @@ public class KitchenSinkController {
                 
                 this.reply(replyToken,
                 TextMessage.builder()
-                .text("我是醜八怪")
+                .text("Hello, I'm cat! Meow~")
                 .sender(Sender.builder()
                 .name(profile.getDisplayName())
                 .iconUrl(profile.getPictureUrl())
                 .build())
                 .build());
                 });
+              } else {
+                lineMessagingClient
+                .getProfile(userId)
+                .whenComplete((profile, throwable) -> {
+                  if (throwable != null) {
+                    this.replyText(replyToken, throwable.getMessage());
+                    return;
+                  }
+                  
+                  this.reply(
+                  replyToken,
+                  Arrays.asList(new TextMessage(
+                  "Display name: " + profile.getDisplayName()),
+                  new TextMessage("Status message: "
+                  + profile.getStatusMessage()))
+                  );
+                  
+                });
               }
-            } 
+            } else {
+              this.replyText(replyToken, "Bot can't use profile API without user ID");
+            }
             break;
-          }  
+          }
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(

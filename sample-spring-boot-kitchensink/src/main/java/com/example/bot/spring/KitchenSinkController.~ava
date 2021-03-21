@@ -456,7 +456,7 @@ public class KitchenSinkController {
             ));
             break;
           }  
-          
+        
         default:{
           log.info("Returns message {}: {}", replyToken, text);
             this.replyText(
