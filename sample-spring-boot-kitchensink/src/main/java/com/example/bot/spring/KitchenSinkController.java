@@ -171,7 +171,7 @@ public class KitchenSinkController {
     );
     
   }
-
+  
   @EventMapping
   public void handleMemberLeft(MemberLeftEvent event) {
     log.info("Got memberLeft message: {}", event.getLeft().getMembers()
@@ -295,10 +295,10 @@ public class KitchenSinkController {
         case "滾蛋": {
           Source source = event.getSource();
             if (source instanceof GroupSource) {
-              this.replyText(replyToken, "Leaving group" );
+              this.replyText(replyToken, "真是令人遺憾" );
               lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get();
             } else if (source instanceof RoomSource) {
-                this.replyText(replyToken, "Leaving room");
+                this.replyText(replyToken, "真是令人遺憾");
                 lineMessagingClient.leaveRoom(((RoomSource) source).getRoomId()).get();
               } else {
                 this.replyText(replyToken, "令人遺憾的結果");
@@ -490,21 +490,21 @@ public class KitchenSinkController {
                 }
                 String saying = new String();
                 switch (profile.getDisplayName()) {
-                  case "羅緯琦" : 
-                    saying = "牛逼";  
-                    break;
-                  case "邱文瑞" : 
-                    saying = "難過";
-                    break;
-                  case "呂昊曈":
-                    saying = "沒水準";
-                    break;
-                  case "黃韋晧":
-                    saying = "快點";
-                    break;
-                  default:
-                    saying = "開bang";
-                    break;
+                case "羅緯琦" : 
+                saying = "牛逼";  
+                break;
+                case "邱文瑞" : 
+                saying = "難過";
+                break;
+                case "呂昊曈":
+                saying = "沒水準";
+                break;
+                case "黃韋晧":
+                saying = "快點";
+                break;
+                default:
+                saying = "開bang";
+                break;
                 }
                 
                 this.reply(replyToken,
@@ -538,6 +538,11 @@ public class KitchenSinkController {
             } else {
               this.replyText(replyToken, "Bot can't use profile API without user ID");
             }
+            break;
+          }
+        case "flex":{
+          
+          this.reply(replyToken, new ExampleFlexMessageSupplier().get());
             break;
           }
         default:{
