@@ -58,33 +58,21 @@ public class Schedule implements Supplier<FlexMessage> {
 
     private Box createFooterBlock() {
         final Spacer spacer = Spacer.builder().size(FlexMarginSize.SM).build();
-        final Button callAction = Button
-                .builder()
-                .style(ButtonStyle.LINK)
-                .height(ButtonHeight.SMALL)
-                .action(new URIAction("CALL", URI.create("tel:000000"), null))
-                .build();
-        final Separator separator = Separator.builder().build();
-        final Button websiteAction =
-                Button.builder()
-                      .style(ButtonStyle.LINK)
-                      .height(ButtonHeight.SMALL)
-                      .action(new URIAction("WEBSITE", URI.create("https://example.com"), null))
-                      .build();
 
         return Box.builder()
                   .layout(FlexLayout.VERTICAL)
                   .spacing(FlexMarginSize.SM)
-                  .contents(asList(spacer, callAction, separator, websiteAction))
+                  .contents(spacer)
                   .build();
     }
 
     private Box createBodyBlock() {
         final Text title =
-                Text.builder()
-                    .text("Brown Cafe")
+                Text.builder();
+                    .text("½Òªí")
                     .weight(TextWeight.BOLD)
                     .size(FlexFontSize.XL)
+                    .align(center)
                     .build();
 
         final Box review = createReviewBox();
