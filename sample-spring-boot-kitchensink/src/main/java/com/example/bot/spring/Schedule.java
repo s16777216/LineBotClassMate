@@ -69,9 +69,10 @@ public class Schedule implements Supplier<FlexMessage> {
     private Box createBodyBlock() {
         final Text title =
                 Text.builder();
-                    .text("class")
+                    .text("½Òªí")
                     .weight(TextWeight.BOLD)
                     .size(FlexFontSize.XL)
+                    .alien(center)
                     .build();
 
         final Box review = createReviewBox();
