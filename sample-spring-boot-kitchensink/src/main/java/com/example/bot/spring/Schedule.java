@@ -72,7 +72,6 @@ public class Schedule implements Supplier<FlexMessage> {
                     .text("class")
                     .weight(TextWeight.BOLD)
                     .size(FlexFontSize.XL)
-                    .align(center)
                     .build();
 
         final Box review = createReviewBox();
