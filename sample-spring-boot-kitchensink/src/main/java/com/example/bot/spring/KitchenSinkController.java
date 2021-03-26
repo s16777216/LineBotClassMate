@@ -541,8 +541,7 @@ public class KitchenSinkController {
             break;
           }
         case "flex":{
-          
-          this.reply(replyToken, new ExampleFlexMessageSupplier().get());
+          this.reply(replyToken, new Schedule().get());
             break;
           }
         default:{
