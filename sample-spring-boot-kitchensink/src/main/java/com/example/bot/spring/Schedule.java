@@ -40,6 +40,7 @@ import com.linecorp.bot.model.message.flex.container.Bubble;
 import com.linecorp.bot.model.message.flex.unit.FlexFontSize;
 import com.linecorp.bot.model.message.flex.unit.FlexLayout;
 import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
+import com.linecorp.bot.model.message.flex.unit.FlexAlign;
 
 public class Schedule implements Supplier<FlexMessage> {
     @Override
@@ -53,7 +54,7 @@ public class Schedule implements Supplier<FlexMessage> {
                       .footer(footerBlock)
                       .build();
 
-        return new FlexMessage("ALT", bubble);
+        return new FlexMessage("flex messege", bubble);
     }
 
     private Box createFooterBlock() {
